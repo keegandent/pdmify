@@ -29,7 +29,7 @@ cd pdmify/
 
 ### Python Environment
 
-Create a virtual environment, then activate it. It is strongly recommended to use this instead of a conda environment because of the SDK.
+Create a virtual environment, then activate it.
 
 ```bash
 python -m venv venv
@@ -40,6 +40,14 @@ Install this project and dependencies using pip like so.
 
 ```bash
 python -m pip install -e .[dev,test]
+```
+
+If you want to use GPU acceleration, you're responsible for installing a CuPy compatible with your version of CUDA. FOr example, on my machine:
+
+```sh
+sudo apt install nvidia-cuda-toolkit
+# above installed CUDA Toolkit 11.5
+pip install cupy-cuda11x
 ```
 
 ## Usage <a name = "usage"></a>
