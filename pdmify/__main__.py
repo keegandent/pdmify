@@ -18,18 +18,19 @@ except Error:
     USING_CUPY = False
     from scipy.signal import resample
 
-INP_FILE_EXTENSIONS = [".wav", ".flac"]
+INP_FILE_EXTENSIONS = ["." + fmt.lower() for fmt in sf.available_formats().keys()]
 
 
 @njit
 def delta_sigma(x):
+    out = np.empty_like(x)
     delta = np.zeros_like(x[0])
     for i in range(x.shape[0]):
         sigma = x[i] - delta
         for j in range(x.shape[1]):
-            x[i, j] = 1 if sigma[j] > 0 else -1
-        delta = x[i] - sigma
-    return x
+            out[i, j] = 1 if sigma[j] > 0 else -1
+        delta = out[i] - sigma
+    return out
 
 
 def process_file(
@@ -56,7 +57,7 @@ def process_file(
     data = delta_sigma(data)
 
     with h5.File(str(outf.absolute()), "w") as f:
-        f.create_dataset("pdm", data=data, compression="gzip")
+        f.create_dataset("pdm", data=data.astype(np.int8), compression="lzf")
 
 
 def main():
