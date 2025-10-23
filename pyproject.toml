@@ -1,0 +1,49 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch]
+version.source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pdmify"]
+
+[project]
+dynamic = ["version"]
+name = "pdmify"
+description = "Convert PCM audio files to PDM"
+readme = "README.md"
+license.file = "LICENSE"
+authors = [
+    { name = "Keegan Dent", email = "keegandent@gmail.com" },
+]
+maintainers = [
+    { name = "Keegan Dent", email = "keegandent@gmail.com" },
+]
+
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+requires-python = ">=3.9"
+dependencies = [
+    "h5py",
+    "numba",
+    "scipy",
+    "soundfile",
+    "tqdm",
+]
+
+[project.scripts]
+pdmify = "pdmify.__main__:main"
+
+[project.optional-dependencies]
+test = []
+dev = [
+    "black",
+    "flake8",
+    "isort",
+]
